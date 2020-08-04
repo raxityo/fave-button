@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author       = { 'Jansel Valentin' => 'jvra16@gmail.com' }
   s.ios.deployment_target = '8.0'
   s.source       = { :git => 'https://github.com/xhamr/fave-button.git', :tag => s.version.to_s }
-  s.source_files  = 'Source/**/*.swift'
+  s.source_files  = 'Sources/**/*.swift'
   s.requires_arc = true
   end
 

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "filename" : "heart-outline.pdf"
+      "filename" : "heart-outline.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   },
   "properties" : {
+    "compression-type" : "lossless",
+    "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
 }
