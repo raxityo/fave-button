@@ -60,12 +60,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUv-ku-yeg" userLabel="heart" customClass="FaveButton" customModule="FaveButtonDemo" customModuleProvider="target">
-                                <rect key="frame" x="118.5" y="311.5" width="44" height="44"/>
+                                <rect key="frame" x="76.5" y="269.5" width="128" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="ICX-nz-LkC"/>
-                                    <constraint firstAttribute="width" constant="44" id="Xvm-2b-Lnp"/>
+                                    <constraint firstAttribute="height" constant="128" id="ICX-nz-LkC"/>
+                                    <constraint firstAttribute="width" constant="128" id="Xvm-2b-Lnp"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="contentEdgeInsets" minX="52" minY="52" maxX="52" maxY="52"/>
                                 <state key="normal" image="heart-outline"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
