@@ -43,6 +43,7 @@ class FaveIcon: UIView {
     applyInit()
   }
 
+  @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -115,7 +116,8 @@ extension FaveIcon {
         options: .curveLinear,
         animations: {
           self.alpha = 1
-        }, completion: nil)
+        }, completion: nil
+      )
     }
 
     guard animate else {
@@ -125,7 +127,7 @@ extension FaveIcon {
     let scaleAnimation = Init(CAKeyframeAnimation(keyPath: "transform.scale")) {
       $0.values = tweenValues!
       $0.duration = duration
-      $0.beginTime = CACurrentMediaTime()+selectedDelay
+      $0.beginTime = CACurrentMediaTime() + selectedDelay
     }
     iconMask.add(scaleAnimation, forKey: nil)
   }
@@ -140,7 +142,7 @@ extension FaveIcon {
     let tweenFunction = Elastic.ExtendedEaseOut
 
     while t < d {
-      let scale = tweenFunction(t, from, c, d, c+0.001, 0.39988) // p=oscillations, c=amplitude(velocity)
+      let scale = tweenFunction(t, from, c, d, c + 0.001, 0.39988) // p=oscillations, c=amplitude(velocity)
       values.append(scale)
       t += tpf
     }

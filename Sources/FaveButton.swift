@@ -35,11 +35,11 @@ public protocol FaveButtonDelegate {
 // MARK: Default implementation
 
 public extension FaveButtonDelegate {
-  func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]? { return nil }
+  func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]? { nil }
 }
 
 open class FaveButton: UIButton {
-  fileprivate struct Const {
+  fileprivate enum Const {
     static let duration = 1.0
     static let expandDuration = 0.1298
     static let collapseDuration = 0.1089
@@ -47,12 +47,12 @@ open class FaveButton: UIButton {
     static let dotRadiusFactors = (first: 0.0633, second: 0.04)
   }
 
-  @IBInspectable open var normalColor: UIColor = UIColor(red: 137/255, green: 156/255, blue: 167/255, alpha: 1)
-  @IBInspectable open var selectedColor: UIColor = UIColor(red: 226/255, green: 38/255, blue: 77/255, alpha: 1)
-  @IBInspectable open var dotFirstColor: UIColor = UIColor(red: 152/255, green: 219/255, blue: 236/255, alpha: 1)
-  @IBInspectable open var dotSecondColor: UIColor = UIColor(red: 247/255, green: 188/255, blue: 48/255, alpha: 1)
-  @IBInspectable open var circleFromColor: UIColor = UIColor(red: 221/255, green: 70/255, blue: 136/255, alpha: 1)
-  @IBInspectable open var circleToColor: UIColor = UIColor(red: 205/255, green: 143/255, blue: 246/255, alpha: 1)
+  @IBInspectable open var normalColor = UIColor(red: 137/255, green: 156/255, blue: 167/255, alpha: 1)
+  @IBInspectable open var selectedColor = UIColor(red: 226/255, green: 38/255, blue: 77/255, alpha: 1)
+  @IBInspectable open var dotFirstColor = UIColor(red: 152/255, green: 219/255, blue: 236/255, alpha: 1)
+  @IBInspectable open var dotSecondColor = UIColor(red: 247/255, green: 188/255, blue: 48/255, alpha: 1)
+  @IBInspectable open var circleFromColor = UIColor(red: 221/255, green: 70/255, blue: 136/255, alpha: 1)
+  @IBInspectable open var circleToColor = UIColor(red: 205/255, green: 143/255, blue: 246/255, alpha: 1)
   @IBInspectable open var selectedImage: UIImage?
 
   @IBOutlet open weak var delegate: AnyObject?
@@ -60,6 +60,7 @@ open class FaveButton: UIButton {
   fileprivate(set) var sparkGroupCount: Int = 7
 
   fileprivate var faveIconImage: UIImage?
+  fileprivate var contentRectOverride: CGRect?
   fileprivate var faveIcon: FaveIcon!
   fileprivate var animationsEnabled = true
 
@@ -73,13 +74,30 @@ open class FaveButton: UIButton {
     }
   }
 
-  public convenience init(frame: CGRect, faveIconNormal: UIImage?) {
+  public convenience init(
+    frame: CGRect,
+    normalImage: UIImage?,
+    selectedImage: UIImage?,
+    normalColor: UIColor? = nil,
+    selectedColor: UIColor? = nil,
+    dotFirstColor: UIColor? = nil,
+    dotSecondColor: UIColor? = nil,
+    circleFromColor: UIColor? = nil,
+    circleToColor: UIColor? = nil
+  ) {
     self.init(frame: frame)
 
-    guard let icon = faveIconNormal else {
+    guard let icon = normalImage else {
       fatalError("missing image for normal state")
     }
     faveIconImage = icon
+    self.selectedImage = selectedImage ?? self.selectedImage
+    self.normalColor = normalColor ?? self.normalColor
+    self.selectedColor = selectedColor ?? self.selectedColor
+    self.dotFirstColor = dotFirstColor ?? self.dotFirstColor
+    self.dotSecondColor = dotSecondColor ?? self.dotSecondColor
+    self.circleFromColor = circleFromColor ?? self.circleFromColor
+    self.circleToColor = circleToColor ?? self.circleToColor
 
     applyInit()
   }
@@ -116,8 +134,8 @@ open class FaveButton: UIButton {
 
 // MARK: create
 
-extension FaveButton {
-  fileprivate func applyInit() {
+private extension FaveButton {
+  func applyInit() {
     if faveIconImage == nil {
       faveIconImage = image(for: .normal)
     }
@@ -136,11 +154,11 @@ extension FaveButton {
     addActions()
   }
 
-  fileprivate func createFaveIcon(_ faveIconImage: UIImage) -> FaveIcon {
-    return FaveIcon.createFaveIcon(self, icon: faveIconImage, color: normalColor, selectedIcon: selectedImage)
+  func createFaveIcon(_ faveIconImage: UIImage) -> FaveIcon {
+    FaveIcon.createFaveIcon(self, icon: faveIconImage, color: normalColor, selectedIcon: selectedImage)
   }
 
-  fileprivate func createSparks(_ radius: CGFloat) -> [Spark] {
+  func createSparks(_ radius: CGFloat) -> [Spark] {
     var sparks = [Spark]()
     let step = 360.0/Double(sparkGroupCount)
     let base = Double(bounds.size.width)
@@ -161,8 +179,8 @@ extension FaveButton {
 
 // MARK: utils
 
-extension FaveButton {
-  fileprivate func dotColors(atIndex index: Int) -> DotColors {
+private extension FaveButton {
+  func dotColors(atIndex index: Int) -> DotColors {
     if case let delegate as FaveButtonDelegate = delegate, delegate.faveButtonDotColors(self) != nil {
       let colors = delegate.faveButtonDotColors(self)!
       let colorIndex = 0..<colors.count ~= index ? index : index % colors.count
@@ -196,8 +214,8 @@ extension FaveButton {
 
 // MARK: animation
 
-extension FaveButton {
-  fileprivate func animateSelect(_ isSelected: Bool, duration: Double) {
+private extension FaveButton {
+  func animateSelect(_ isSelected: Bool, duration: Double) {
     let color = isSelected ? selectedColor : normalColor
 
     faveIcon.animateSelect(isSelected, fillColor: color, duration: duration, delay: duration > 0.0 ? Const.faveIconShowDelay : 0.0)
