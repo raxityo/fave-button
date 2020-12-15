@@ -83,7 +83,8 @@ open class FaveButton: UIButton {
     dotFirstColor: UIColor? = nil,
     dotSecondColor: UIColor? = nil,
     circleFromColor: UIColor? = nil,
-    circleToColor: UIColor? = nil
+    circleToColor: UIColor? = nil,
+    imageRect: CGRect? = nil
   ) {
     self.init(frame: frame)
 
@@ -98,7 +99,7 @@ open class FaveButton: UIButton {
     self.dotSecondColor = dotSecondColor ?? self.dotSecondColor
     self.circleFromColor = circleFromColor ?? self.circleFromColor
     self.circleToColor = circleToColor ?? self.circleToColor
-
+    self.contentRectOverride = imageRect
     applyInit()
   }
 
@@ -155,7 +156,7 @@ private extension FaveButton {
   }
 
   func createFaveIcon(_ faveIconImage: UIImage) -> FaveIcon {
-    FaveIcon.createFaveIcon(self, icon: faveIconImage, color: normalColor, selectedIcon: selectedImage)
+    FaveIcon.createFaveIcon(self, contentRectOverride: contentRectOverride, icon: faveIconImage, color: normalColor, selectedIcon: selectedImage)
   }
 
   func createSparks(_ radius: CGFloat) -> [Spark] {
